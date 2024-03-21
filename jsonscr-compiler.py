@@ -55,7 +55,6 @@ class ScriptRunner:
 
         return code
 
-
     @staticmethod
     def execute_python_code(python_code):
         try:
