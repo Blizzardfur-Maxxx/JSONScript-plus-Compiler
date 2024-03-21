@@ -4,7 +4,7 @@ This project consists of a custom domain-specific language (DSL) and a correspon
 
 ## Language Overview
 
-The custom language allows users to define Python classes, methods, imports, variables, loops, conditionals, and user input using a JSON syntax.
+JSONScript allows users to define Python classes, methods, imports, variables, loops, conditionals, and user input using a JSON syntax.
 
 ### Supported Constructs
 
@@ -19,7 +19,7 @@ The custom language allows users to define Python classes, methods, imports, var
 
 ## Compiler Overview
 
-The compiler translates JSON representations of programs written in the custom language into executable Python code. It follows a simple process:
+The compiler translates JSON representations of programs written in JSONScript into executable Python code. It follows a simple process:
 
 1. **JSON Parsing**: Parse the input JSON file containing the program definition.
 2. **Code Generation**: Generate Python code based on the parsed JSON structure.
@@ -30,13 +30,13 @@ The compiler translates JSON representations of programs written in the custom l
 
 To use the compiler, follow these steps:
 
-1. Create a JSON file containing a program written in the custom language.
+1. Create a JSON file containing a program written in JSONScript.
 2. Run the compiler script, passing the path to the JSON file as a command-line argument.
 3. The compiler will generate equivalent Python code and execute it, displaying any output produced.
 
 ## Example
 
-Here's a simple example of a program written in the custom language:
+Here's a simple example of a program written in JSONScript:
 
 ```json
 {
