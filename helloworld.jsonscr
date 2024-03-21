@@ -1,0 +1,10 @@
+{
+  "Class": {
+    "name": "HelloWorld",
+    "functions": {
+      "main": {
+        "implementation": "print('Hello, World!')"
+      }
+    }
+  }
+}

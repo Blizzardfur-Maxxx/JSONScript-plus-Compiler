@@ -1,0 +1,19 @@
+{
+  "Class": {
+    "name": "BooleanScript",
+    "functions": {
+      "is_even": {
+        "parameters": [
+          {"name": "x", "type": "int"}
+        ],
+        "return_type": "bool",
+        "implementation": "return x % 2 == 0"
+      },
+      "main": {
+        "return_type": "void",
+        "implementation": "x = int(input('Enter a number: '))\n"
+                          "print('Is even?', is_even(x))"
+      }
+    }
+  }
+}
