@@ -1,19 +1,24 @@
 import json
 import sys
 import subprocess
-import os 
+import os
+
 
 class ScriptRunner:
     @staticmethod
     def generate_python_code(json_data):
         code = ""
 
-        if "Imports" in json_data:
-            for module in json_data["Imports"]:
+        for module in json_data.get("Imports", []):
+            if module.get("type") == "module":
                 code += f"import {module['name']}\n"
-            code += "\n"
-        else:
-            code += "import random\n\n" 
+            elif module.get("type") == "from":
+                code += f"from {module['name']} import {module['import_name']}\n"
+        code += "\n"
+
+        for variable in json_data.get("Variables", []):
+            code += f"{variable['name']} = {variable['value']}\n"
+        code += "\n"
 
         class_name = json_data["Class"]["name"]
         code += f"class {class_name}:\n"
@@ -22,18 +27,17 @@ class ScriptRunner:
             code += f"    def {func_name}(self"
             if "parameters" in func_details:
                 for param in func_details["parameters"]:
-                    code += f", {param['name']}: {param['type']}"
-            code += f")"
-            if "return_type" in func_details:
-                code += f" -> {func_details['return_type']}"
-            code += ":\n"
+                    default_value = param.get("default", None)
+                    param_str = f"{param['name']}"
+                    if default_value is not None:
+                        param_str += f"={default_value}"
+                    code += f", {param_str}"
+            code += "):\n"
 
-            if "implementation" in func_details:
-                implementation_lines = func_details['implementation'].split('\n')
-                for line in implementation_lines:
-                    code += f"        {line}\n"
-            else:
-                code += "        raise NotImplementedError()\n"
+            implementation = func_details.get("implementation", "")
+            implementation_lines = implementation.split("\n")
+            for line in implementation_lines:
+                code += f"        {line}\n"
 
         if "main" in json_data["Class"]["functions"]:
             main_func_impl = json_data["Class"]["functions"]["main"]["implementation"]
@@ -41,7 +45,6 @@ class ScriptRunner:
             code += f"    {class_name}().main()\n"
 
         return code
-
 
     @staticmethod
     def execute_python_code(python_code):
@@ -53,6 +56,7 @@ class ScriptRunner:
             return output.stdout
         except Exception as e:
             print("Error:", e)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
