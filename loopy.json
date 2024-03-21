@@ -1,0 +1,88 @@
+{
+  "Imports": [
+    {"name": "random", "type": "module"},
+    {"name": "sys", "type": "module"}
+  ],
+  "Variables": [
+    {"name": "constant", "type": "int", "value": 10}
+  ],
+  "Class": {
+    "name": "NumberAdder",
+    "functions": {
+      "add_random_number": {
+        "parameters": [
+          {"name": "num", "type": "int", "default": 5}
+        ],
+        "return_type": "int",
+        "implementation": [
+          {
+            "type": "function",
+            "name": "return",
+            "args": [
+              {"type": "int", "value": "num + constant"}
+            ]
+          }
+        ]
+      },
+      "generate_random_number": {
+        "parameters": [],
+        "return_type": "int",
+        "implementation": [
+          {
+            "type": "function",
+            "name": "return",
+            "args": [
+              {"type": "int", "value": "random.randint(1, 100)"}
+            ]
+          }
+        ]
+      },
+      "main": {
+        "parameters": [],
+        "return_type": "None",
+        "implementation": [
+          {
+            "type": "function",
+            "name": "print",
+            "args": [
+              {"type": "str", "value": "Result: "}
+            ]
+          },
+          {
+            "type": "loop",
+            "loop_type": "for",
+            "variable": "i",
+            "start": 0,
+            "end": 3,
+            "step": 1,
+            "body": [
+              {
+                "type": "function",
+                "name": "print",
+                "args": [
+                  {"type": "str", "value": "Iteration: "},
+                  {"type": "int", "value": "i"},
+                  {"type": "str", "value": " Result: "},
+                  {"type": "int", "value": "NumberAdder().add_random_number(NumberAdder().generate_random_number())"}
+                ]
+              }
+            ]
+          },
+          {
+            "type": "input",
+            "variable": "user_input",
+            "message": "Enter a value: "
+          },
+          {
+            "type": "function",
+            "name": "print",
+            "args": [
+              {"type": "str", "value": "User input: "},
+              {"type": "var", "value": "user_input"}
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,14 +1,15 @@
 import json
-import sys
 import subprocess
 import os
-
+import sys
+import random
 
 class ScriptRunner:
     @staticmethod
     def generate_python_code(json_data):
         code = ""
 
+        # Import statements
         for module in json_data.get("Imports", []):
             if module.get("type") == "module":
                 code += f"import {module['name']}\n"
@@ -16,15 +17,14 @@ class ScriptRunner:
                 code += f"from {module['name']} import {module['import_name']}\n"
         code += "\n"
 
+        # Variable declarations
         for variable in json_data.get("Variables", []):
             var_name = variable["name"]
             var_value = variable["value"]
-            var_type = variable["type"]
-            if var_type == "str":
-                var_value = f'"{var_value}"'
             code += f"{var_name} = {var_value}\n"
         code += "\n"
 
+        # Class declaration and function implementations
         class_name = json_data["Class"]["name"]
         code += f"class {class_name}:\n"
         for func_name, func_details in json_data["Class"]["functions"].items():
@@ -38,20 +38,28 @@ class ScriptRunner:
                     code += f", {param_str}"
             code += "):\n"
 
-            implementation = func_details.get("implementation", "")
-            if isinstance(implementation, list):
-                for impl_step in implementation:
-                    if impl_step["type"] == "function":
-                        args = ", ".join(f'"{arg["value"]}"' if arg["type"] == "str" else arg["value"] for arg in impl_step["args"])
-                        code += f"        {impl_step['name']}({args})\n"
-            else:
-                implementation_lines = implementation.split("\n")
-                for line in implementation_lines:
-                    code += f"        {line}\n"
+            for step in func_details["implementation"]:
+                if step["type"] == "function":
+                    args = ", ".join(f'"{arg["value"]}"' if arg["type"] == "str" else arg["value"] for arg in step["args"])
+                    code += f"        {step['name']}({args})\n"
+                elif step["type"] == "loop":
+                    loop_type = step["loop_type"]
+                    variable = step["variable"]
+                    start = step["start"]
+                    end = step["end"]
+                    step_value = step["step"]
+                    code += f"        for {variable} in range({start}, {end}, {step_value}):\n"
+                    for loop_step in step["body"]:
+                        args = ", ".join(f'"{arg["value"]}"' if arg["type"] == "str" else arg["value"] for arg in loop_step["args"])
+                        code += f"            {loop_step['name']}({args})\n"
+                elif step["type"] == "input":
+                    var = step["variable"]
+                    code += f"        {var} = input()\n"
+            code += "\n"
 
-        if "main" in json_data["Class"]["functions"]:
-            code += f"\nif __name__ == '__main__':\n"
-            code += f"    {class_name}().main()\n"
+        # Main function
+        code += "if __name__ == '__main__':\n"
+        code += f"    {class_name}().main()\n"
 
         return code
 
@@ -60,9 +68,19 @@ class ScriptRunner:
         try:
             with open("generated_code.py", "w") as f:
                 f.write(python_code)
-            output = subprocess.run(["python", "generated_code.py"], capture_output=True, text=True)
+            
+            # Using Popen to interact with the subprocess
+            process = subprocess.Popen(["python", "generated_code.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            
+            # Communicating with the process to handle input/output
+            stdout, stderr = process.communicate()
+            
+            # Removing the generated file after execution
             os.remove("generated_code.py")
-            return output.stdout
+            
+            if stderr:
+                print("Error:", stderr)
+            return stdout
         except Exception as e:
             print("Error:", e)
 

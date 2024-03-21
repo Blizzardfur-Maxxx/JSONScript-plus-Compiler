@@ -14,40 +14,21 @@
         ],
         "return_type": "int",
         "implementation": [
-          {
-            "type": "function",
-            "name": "return",
-            "args": [
-              {"type": "int", "value": "num + constant"}
-            ]
-          }
+          {"type": "function", "name": "return", "args": [{"type": "int", "value": "num + constant"}]}
         ]
       },
       "generate_random_number": {
         "parameters": [],
         "return_type": "int",
         "implementation": [
-          {
-            "type": "function",
-            "name": "return",
-            "args": [
-              {"type": "int", "value": "random.randint(1, 100)"}
-            ]
-          }
+          {"type": "function", "name": "return", "args": [{"type": "int", "value": "random.randint(1, 100)"}]}
         ]
       },
       "main": {
         "parameters": [],
         "return_type": "None",
         "implementation": [
-          {
-            "type": "function",
-            "name": "print",
-            "args": [
-              {"type": "str", "value": "Result: "},
-              {"type": "int", "value": "NumberAdder().add_random_number(NumberAdder().generate_random_number())"}
-            ]
-          }
+          {"type": "function", "name": "print", "args": [{"type": "str", "value": "Result: "}, {"type": "int", "value": "NumberAdder().add_random_number(NumberAdder().generate_random_number())"}]}
         ]
       }
     }
