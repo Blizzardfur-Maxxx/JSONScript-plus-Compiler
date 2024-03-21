@@ -57,7 +57,6 @@ class ScriptRunner:
         except Exception as e:
             print("Error:", e)
 
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python compiler.py <jsonscr_file>")
