@@ -3,7 +3,18 @@
     "name": "HelloWorld",
     "functions": {
       "main": {
-        "implementation": "print('Hello, World!')"
+        "implementation": [
+          {
+            "type": "function",
+            "name": "print",
+            "args": [
+              {
+                "type": "str",
+                "value": "Hello, World!"
+              }
+            ]
+          }
+        ]
       }
     }
   }

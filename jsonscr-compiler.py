@@ -37,16 +37,24 @@ class ScriptRunner:
                         param_str += f"={default_value}"
                     code += f", {param_str}"
             code += "):\n"
+
             implementation = func_details.get("implementation", "")
-            implementation_lines = implementation.split("\n")
-            for line in implementation_lines:
-                code += f"        {line}\n"
+            if isinstance(implementation, list):
+                for impl_step in implementation:
+                    if impl_step["type"] == "function":
+                        args = ", ".join(f'"{arg["value"]}"' if arg["type"] == "str" else arg["value"] for arg in impl_step["args"])
+                        code += f"        {impl_step['name']}({args})\n"
+            else:
+                implementation_lines = implementation.split("\n")
+                for line in implementation_lines:
+                    code += f"        {line}\n"
 
         if "main" in json_data["Class"]["functions"]:
             code += f"\nif __name__ == '__main__':\n"
             code += f"    {class_name}().main()\n"
 
         return code
+
 
     @staticmethod
     def execute_python_code(python_code):
