@@ -1,0 +1,22 @@
+{
+  "Imports": [
+    {"name": "random", "type": "module"}
+  ],
+  "Class": {
+    "name": "NumberAdder",
+    "functions": {
+      "add_random_number": {
+        "parameters": [
+          {"name": "num", "type": "int"}
+        ],
+        "return_type": "int",
+        "implementation": "return num + random.randint(1, 10)"
+      },
+      "main": {
+        "parameters": [],
+        "return_type": "None",
+        "implementation": "result = NumberAdder().add_random_number(2)\nprint('Result:', result)"
+      }
+    }
+  }
+}

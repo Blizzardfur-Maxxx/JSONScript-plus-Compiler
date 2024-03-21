@@ -69,20 +69,20 @@ class ScriptRunner:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python compiler.py <jsonscr_file>")
+        print("Usage: python compiler.py <json_file>")
         sys.exit(1)
 
-    jsonscr_file = sys.argv[1]
+    json_file = sys.argv[1]
 
     try:
-        with open(jsonscr_file, 'r') as file:
+        with open(json_file, 'r') as file:
             json_input = file.read()
             parsed_json = json.loads(json_input)
             python_code = ScriptRunner.generate_python_code(parsed_json)
             output = ScriptRunner.execute_python_code(python_code)
             print(output)
     except FileNotFoundError:
-        print(f"Error: File '{jsonscr_file}' not found.")
+        print(f"Error: File '{json_file}' not found.")
         sys.exit(1)
     except json.JSONDecodeError:
         print("Error: Invalid JSON format.")

@@ -1,0 +1,21 @@
+{
+  "Class": {
+    "name": "HelloWorld",
+    "functions": {
+      "main": {
+        "implementation": [
+          {
+            "type": "function",
+            "name": "print",
+            "args": [
+              {
+                "type": "str",
+                "value": "Hello, World!"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
