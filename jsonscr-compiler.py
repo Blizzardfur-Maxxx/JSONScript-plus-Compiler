@@ -18,7 +18,11 @@ class ScriptRunner:
 
         for variable in json_data.get("Variables", []):
             var_name = variable["name"]
+            var_type = variable.get("type", None)
             var_value = variable["value"]
+            if var_type is not None:
+                if not isinstance(var_value, eval(var_type)):
+                    raise TypeError(f"Variable '{var_name}' type mismatch. Expected {var_type}, got {type(var_value).__name__}.")
             code += f"{var_name} = {var_value}\n"
         code += "\n"
 
@@ -33,6 +37,10 @@ class ScriptRunner:
                     if default_value is not None:
                         param_str += f"={default_value}"
                     code += f", {param_str}"
+                    param_type = param.get("type", None)
+                    if param_type is not None and default_value is not None:
+                        if not isinstance(default_value, eval(param_type)):
+                            raise TypeError(f"Function parameter '{param['name']}' type mismatch. Expected {param_type}, got {type(default_value).__name__}.")
             code += "):\n"
 
             for step in func_details["implementation"]:
@@ -81,6 +89,8 @@ class ScriptRunner:
             if stderr:
                 print("Error:", stderr)
             return stdout
+        except FileNotFoundError as e:
+            print("Error: File not found:", e)
         except Exception as e:
             print("Error:", e)
 
@@ -103,6 +113,9 @@ if __name__ == "__main__":
         sys.exit(1)
     except json.JSONDecodeError:
         print("Error: Invalid JSON format.")
+        sys.exit(1)
+    except TypeError as e:
+        print("Error:", e)
         sys.exit(1)
     except Exception as e:
         print("Error:", e)
