@@ -9,7 +9,6 @@ class ScriptRunner:
     def generate_python_code(json_data):
         code = ""
 
-        # Import statements
         for module in json_data.get("Imports", []):
             if module.get("type") == "module":
                 code += f"import {module['name']}\n"
@@ -17,14 +16,12 @@ class ScriptRunner:
                 code += f"from {module['name']} import {module['import_name']}\n"
         code += "\n"
 
-        # Variable declarations
         for variable in json_data.get("Variables", []):
             var_name = variable["name"]
             var_value = variable["value"]
             code += f"{var_name} = {var_value}\n"
         code += "\n"
 
-        # Class declaration and function implementations
         class_name = json_data["Class"]["name"]
         code += f"class {class_name}:\n"
         for func_name, func_details in json_data["Class"]["functions"].items():
@@ -57,7 +54,6 @@ class ScriptRunner:
                     code += f"        {var} = input()\n"
             code += "\n"
 
-        # Main function
         code += "if __name__ == '__main__':\n"
         code += f"    {class_name}().main()\n"
 
@@ -68,16 +64,9 @@ class ScriptRunner:
         try:
             with open("generated_code.py", "w") as f:
                 f.write(python_code)
-            
-            # Using Popen to interact with the subprocess
             process = subprocess.Popen(["python", "generated_code.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-            
-            # Communicating with the process to handle input/output
             stdout, stderr = process.communicate()
-            
-            # Removing the generated file after execution
             os.remove("generated_code.py")
-            
             if stderr:
                 print("Error:", stderr)
             return stdout
