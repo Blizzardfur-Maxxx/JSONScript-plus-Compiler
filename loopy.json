@@ -52,16 +52,16 @@
             "type": "loop",
             "loop_type": "for",
             "variable": "i",
-            "start": 0,
-            "end": 3,
-            "step": 1,
+            "start": "0",
+            "end": "3",
+            "step": "1",
             "body": [
               {
                 "type": "function",
                 "name": "print",
                 "args": [
                   {"type": "str", "value": "Iteration: "},
-                  {"type": "int", "value": "i"},
+                  {"type": "var", "value": "i"},
                   {"type": "str", "value": " Result: "},
                   {"type": "int", "value": "NumberAdder().add_random_number(NumberAdder().generate_random_number())"}
                 ]

@@ -1,0 +1,25 @@
+{
+  "Imports": [],
+  "Variables": [
+    {"name": "constant", "type": "int", "value": 15}
+  ],
+  "Class": {
+    "name": "ConditionalExample",
+    "functions": {
+      "main": {
+        "implementation": [
+          {
+            "type": "conditional",
+            "condition": "constant > 10",
+            "body": [
+              {"type": "function", "name": "print", "args": [{"type": "str", "value": "Constant is greater than 10"}]}
+            ],
+            "else_body": [
+              {"type": "function", "name": "print", "args": [{"type": "str", "value": "Constant is less than or equal to 10"}]}
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

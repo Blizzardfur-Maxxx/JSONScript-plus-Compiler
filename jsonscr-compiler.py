@@ -52,6 +52,17 @@ class ScriptRunner:
                 elif step["type"] == "input":
                     var = step["variable"]
                     code += f"        {var} = input()\n"
+                elif step["type"] == "conditional":
+                    condition = step["condition"]
+                    code += f"        if {condition}:\n"
+                    for conditional_step in step["body"]:
+                        args = ", ".join(f'"{arg["value"]}"' if arg["type"] == "str" else arg["value"] for arg in conditional_step["args"])
+                        code += f"            {conditional_step['name']}({args})\n"
+                    if "else_body" in step:
+                        code += "        else:\n"
+                        for else_step in step["else_body"]:
+                            args = ", ".join(f'"{arg["value"]}"' if arg["type"] == "str" else arg["value"] for arg in else_step["args"])
+                            code += f"            {else_step['name']}({args})\n"
             code += "\n"
 
         code += "if __name__ == '__main__':\n"
