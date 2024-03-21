@@ -1,0 +1,16 @@
+{
+  "Imports": [],
+  "Variables": [
+    {"name": "x", "type": "int", "value": 10}
+  ],
+  "Class": {
+    "name": "Example",
+    "functions": {
+      "main": {
+        "implementation": [
+          {"type": "function", "name": "print", "args": [{"type": "str", "value": "Value of x: "}, {"type": "var", "value": "x"}]}
+        ]
+      }
+    }
+  }
+}
