@@ -1,0 +1,46 @@
+{
+  "Imports": [
+    {"name": "random", "type": "module"}
+  ],
+  "Variables": [
+    {"name": "guesses", "type": "int", "value": 0},
+    {"name": "max_guesses", "type": "int", "value": 5}
+  ],
+  "Class": {
+    "name": "NumberGuessingGame",
+    "functions": {
+      "main": {
+        "implementation": [
+          {"type": "function", "name": "print", "args": [{"type": "str", "value": "Welcome to the Number Guessing Game!"}]},
+          {"type": "function", "name": "print", "args": [{"type": "str", "value": "I have selected a secret number between 1 and 100. Can you guess it?"}]},
+          {"type": "loop", "loop_type": "while", "condition": "guesses < max_guesses"},
+          {"type": "function", "name": "input", "args": [{"type": "str", "value": "Enter your guess: "}], "variable": "user_guess"},
+          {"type": "conditional", "condition": "user_guess.isdigit()", "body": [
+            {"type": "function", "name": "print", "args": [{"type": "str", "value": "Please enter a valid number."}]},
+            {"type": "function", "name": "continue"}
+          ]},
+          {"type": "function", "name": "return", "args": [{"type": "int", "value": "user_guess"}]}
+        ],
+        "return_type": "int"
+      },
+      "check_guess": {
+        "parameters": [{"name": "guess", "type": "int"}],
+        "return_type": "None",
+        "implementation": [
+          {"type": "function", "name": "increment", "args": [{"type": "int", "value": "guesses"}]},
+          {"type": "variable", "name": "secret_number", "value": {"type": "int", "value": "random.randint(1, 100)"}},
+          {"type": "conditional", "condition": "guess < secret_number", "body": [
+            {"type": "function", "name": "print", "args": [{"type": "str", "value": "Too low! Try again."}]}
+          ]},
+          {"type": "conditional", "condition": "guess > secret_number", "body": [
+            {"type": "function", "name": "print", "args": [{"type": "str", "value": "Too high! Try again."}]}
+          ]},
+          {"type": "conditional", "condition": "guess == secret_number", "body": [
+            {"type": "function", "name": "print", "args": [{"type": "str", "value": "Congratulations! You guessed the number!"}]},
+            {"type": "function", "name": "break"}
+          ]}
+        ]
+      }
+    }
+  }
+}
