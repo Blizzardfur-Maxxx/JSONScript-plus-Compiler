@@ -2,20 +2,53 @@
   "Imports": [
     {"name": "random", "type": "module"}
   ],
+  "Variables": [
+    {"name": "constant", "type": "int", "value": 10}
+  ],
   "Class": {
     "name": "NumberAdder",
     "functions": {
       "add_random_number": {
         "parameters": [
-          {"name": "num", "type": "int"}
+          {"name": "num", "type": "int", "default": 5}
         ],
         "return_type": "int",
-        "implementation": "return num + random.randint(1, 10)"
+        "implementation": [
+          {
+            "type": "function",
+            "name": "return",
+            "args": [
+              {"type": "int", "value": "num + constant"}
+            ]
+          }
+        ]
+      },
+      "generate_random_number": {
+        "parameters": [],
+        "return_type": "int",
+        "implementation": [
+          {
+            "type": "function",
+            "name": "return",
+            "args": [
+              {"type": "int", "value": "random.randint(1, 100)"}
+            ]
+          }
+        ]
       },
       "main": {
         "parameters": [],
         "return_type": "None",
-        "implementation": "result = NumberAdder().add_random_number(2)\nprint('Result:', result)"
+        "implementation": [
+          {
+            "type": "function",
+            "name": "print",
+            "args": [
+              {"type": "str", "value": "Result: "},
+              {"type": "int", "value": "NumberAdder().add_random_number(NumberAdder().generate_random_number())"}
+            ]
+          }
+        ]
       }
     }
   }
