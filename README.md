@@ -1,4 +1,4 @@
-# Custom Language Compiler
+# JSONScript
 
 This project consists of a custom domain-specific language (DSL) and a corresponding compiler that translates programs written in the DSL into executable Python code.
 
